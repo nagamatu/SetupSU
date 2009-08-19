@@ -16,7 +16,7 @@
 		android:layout_width="fill_parent" 
     	android:layout_height="wrap_content" 
     	android:text="@string/hello" 
-    	android:textSize="11pt" android:gravity="center"/>
+    	android:gravity="center" android:textSize="10pt"/>
 	<Button 
 		android:text="@string/proceed" 
 		android:id="@+id/ButtonProceed" 
@@ -29,4 +29,5 @@
 		android:layout_width="wrap_content" 
 		android:layout_margin="8px" 
 	/>
+<TextView android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/message" android:keepScreenOn="true" android:scrollHorizontally="false" android:singleLine="false" android:gravity="bottom"></TextView>
 </LinearLayout>

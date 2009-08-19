@@ -17,6 +17,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class main extends Activity implements Runnable {
 	static final String TAG = "SetupSU";
@@ -42,6 +43,9 @@ public class main extends Activity implements Runnable {
         Button btn = (Button) findViewById(R.id.ButtonProceed);        
         btn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
+				TextView tv = (TextView)main.this.findViewById(R.id.message);
+				tv.setText("");
+
 		        dialog = new ProgressDialog(main.this);
 		        dialog.setIndeterminate(true);
 		        dialog.setMessage(main.this.getResources().getString(R.string.progress_message));
@@ -50,7 +54,7 @@ public class main extends Activity implements Runnable {
 				background = new ExecThread(handler, main.this);
 				background.start();
 			}
-        });        
+        });
     }
 
     private class ExecThread extends Thread {
@@ -70,7 +74,7 @@ public class main extends Activity implements Runnable {
     		handler.post(listener);
     	}
     }
-    
+
     private void extractFromAsset(AssetManager as, String name) throws IOException {
     	Log.d(TAG, "extractFromAsset: " + name);
   
@@ -137,11 +141,26 @@ public class main extends Activity implements Runnable {
 		}
     }
     
+    private class MessageListener implements Runnable {
+    	private String message;
+
+    	public MessageListener(String message) {
+    		this.message = message;
+    	}
+
+		public void run() {
+			TextView tv = (TextView)main.this.findViewById(R.id.message);
+			tv.append(message);
+			tv.append("\n");
+		}
+    	
+    }
 
 	private final void copyAndExec() throws IOException {
 		AssetManager as = getResources().getAssets();		
 		for (int i = 0; i < assetFiles.length; i++) {
 			extractFromAsset(as, assetFiles[i]);
+			handler.post(new MessageListener("# extract " + assetFiles[i]));
 		}
 
 		String[] script = new String[] {
@@ -167,6 +186,7 @@ public class main extends Activity implements Runnable {
 		tmpfile.delete();
 
 		Log.v(TAG, "suexec: " + cmdline);
+		handler.post(new MessageListener("# " + cmdline));
 		
 		String asroot_path = getFileStreamPath(asroot_name).getAbsolutePath();
 
@@ -220,8 +240,7 @@ public class main extends Activity implements Runnable {
 		AlertDialog.Builder dlgb = new AlertDialog.Builder(main.this)
 			.setMessage(R.string.dialog_message)
 			.setPositiveButton(R.string.button_close, new OnClickListener() {
-				public void onClick(DialogInterface dialog,
-						int which) {
+				public void onClick(DialogInterface dialog, int which) {
 					Log.d(TAG, "/data/app/" + main.this.getPackageName() + ".apk");
 					try {
 						suexec("/system/bin/rm -r /data/app/" + main.this.getPackageName() + ".apk");
