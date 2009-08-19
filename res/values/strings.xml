@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Install su and busybox into /system/xbin directory.</string>
+    <string name="app_name">Setup SU</string>
+	<string name="proceed">Proceed</string>
+	<string name="button_close">Close</string>
+	<string name="dialog_message">Finished to setup su and busybox command</string>
+	<string name="progress_message">Now processing ...</string>
+</resources>

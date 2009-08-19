@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">su および busybox コマンドを /system/xbin ディレクトリにインストールします</string>
+    <string name="app_name">す設定</string>
+	<string name="proceed">実行</string>
+	<string name="button_close">閉じる</string>
+	<string name="dialog_message">suおよび busyboxコマンドのインストールに成功しました</string>
+	<string name="progress_message">処理中 ...</string>
+</resources>
